@@ -2,9 +2,10 @@
 *.pot
 *.pyc
 __pycache__/
-!migrations/__init__.py
-migrations/*
+**/migrations/*
+!**/migrations/__init__.py
 db.sqlite3
 db.sqlite3-journal
 env
 *.sublime-*
+.DS_Store
