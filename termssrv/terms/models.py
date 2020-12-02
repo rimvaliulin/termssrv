@@ -39,3 +39,25 @@ class Book(models.Model):
 
     def __str__(self):
         return f'{self.short_name} ({self.version})'
+
+
+class Term(models.Model):
+    """
+    An element of the reference book.
+
+
+    Code and value are required.
+    """
+
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, verbose_name=_('reference book')
+    )
+    code = models.CharField(_('code'), max_length=50)
+    value = models.CharField(_('value'), max_length=100)
+
+    class Meta:
+        verbose_name = _('Term')
+        verbose_name_plural = _('Terms')
+
+    def __str__(self):
+        return {self.code}
