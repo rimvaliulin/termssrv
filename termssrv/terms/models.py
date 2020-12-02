@@ -45,7 +45,6 @@ class Term(models.Model):
     """
     An element of the reference book.
 
-
     Code and value are required.
     """
 
