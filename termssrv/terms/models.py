@@ -17,7 +17,7 @@ class Book(models.Model):
     short_name = models.CharField(_('short name'), max_length=50)
     description = models.TextField(_('description'), blank=True)
     version = models.CharField(_('version'), max_length=30)
-    pub_date = models.DateField(_('date'), auto_now_add=True)
+    pub_date = models.DateField(_('date'))
 
     class Meta:
         verbose_name = _('Reference Book')
@@ -59,4 +59,4 @@ class Term(models.Model):
         verbose_name_plural = _('Terms')
 
     def __str__(self):
-        return {self.code}
+        return self.code
