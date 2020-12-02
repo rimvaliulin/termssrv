@@ -4,9 +4,10 @@ from django.utils.translation import gettext_lazy as _
 
 class Book(models.Model):
     """
-    The refefence book of terms.
+    The reference book of terms.
 
-    Version must be unique within the reference book.
+    The version of the reference book must be unique
+    within that reference book.
 
     Name, short name and publication date are required.
     Description is optional.
