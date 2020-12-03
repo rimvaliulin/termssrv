@@ -5,10 +5,10 @@ from rest_framework import serializers
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ['name', 'short_name', 'description', 'version', 'pub_date']
 
 
 class TermSerializer(serializers.ModelSerializer):
     class Meta:
         model = Term
-        fields = '__all__'
+        fields = ['code', 'value']
