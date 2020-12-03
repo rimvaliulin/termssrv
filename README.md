@@ -45,7 +45,7 @@ GET /books/
 HTTP 200 OK
 Allow: GET, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
     "count": 11,
     "next": "http://127.0.0.1:8000/books/?page=2",
@@ -88,7 +88,7 @@ GET /books/2020-12-05/
 HTTP 200 OK
 Allow: GET, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
     "count": 7,
     "next": null,
@@ -131,7 +131,7 @@ GET /books/a/
 HTTP 200 OK
 Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
     "count": 2,
     "next": null,
@@ -148,6 +148,7 @@ Vary: Accept
     ]
 }
 ```
+
 ### Validation of elements of a given reference books of the current version
 
 ```bash
@@ -170,7 +171,7 @@ GET /books/a/1/
 HTTP 200 OK
 Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
     "count": 3,
     "next": null,
@@ -202,14 +203,14 @@ GET /books/a/1/
 HTTP 200 OK
 Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
     "status": "validated"
 }
 ```
 
 ```bash
-echo '{"code": "foo", "value": "black"}' | http PUT http://127.0.0.1:8000/books/a/1/
+echo '{"code": "foo", "value": "brown"}' | http PUT http://127.0.0.1:8000/books/a/1/
 ```
 
 ```
@@ -217,8 +218,8 @@ PUT /books/a/1/
 HTTP 400 Bad Request
 Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
-Vary: Accept
+
 {
-    "status": "validated"
+    "status": "not valid"
 }
 ```
