@@ -55,8 +55,8 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         Check values of the given codes for the terms in the book.
         """
         recent = self.get_queryset()
-        queryset = Term.objects.filter(book=recent)
         recent = recent.filter(short_name=pk).order_by('-pub_date')[:1]
+        queryset = Term.objects.filter(book=recent)
         serializer = TermSerializer(data=request.data, many=True)
         if serializer.is_valid():
             terms = {term['code']: term['value'] for term in serializer.data}
@@ -65,7 +65,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
                 errors = []
                 # validate values for the terms
                 for obj in object_list:
-                    if obj.value != terms.get(obj.code, None):
+                    if obj.code in terms and obj.value != terms[obj.code]:
                         errors.append(obj)
                 if errors:
                     serializer = TermSerializer(errors, many=True)
