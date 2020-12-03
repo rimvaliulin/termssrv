@@ -16,7 +16,9 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
 
     @action(detail=False, url_path=r'(?P<date>[0-9]{4}-[0-9]{2}-[0-9]{2})')
     def recent_books(self, request, date=None):
-        """Get a list of reference books relevant on a given date."""
+        """
+        Get a list of reference books relevant on a given date.
+        """
         queryset = self.get_queryset()
         try:
             queryset = self.queryset.filter(pub_date__gte=date)
@@ -32,7 +34,9 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        """Get the terms of a given directory of the current version."""
+        """
+        Get the terms of a given directory of the current version.
+        """
         recent = self.get_queryset()
         recent = recent.filter(short_name=pk).order_by('-pub_date')[:1]
         queryset = Term.objects.filter(book=recent).order_by('code')
@@ -45,7 +49,8 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        """Validate the terms of a given reference book of the current version.
+        """
+        Validate the terms of a given reference book of the current version.
 
         Check values of the given codes for the terms in the book.
         """
@@ -58,6 +63,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
             object_list = queryset.filter(code__in=list(terms.keys()))
             if object_list:
                 errors = []
+                # validate values for the terms
                 for obj in object_list:
                     if obj.value != terms.get(obj.code, None):
                         errors.append(obj)
@@ -81,11 +87,14 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         detail=True, url_path=r'(?P<version>[\w_]+)', methods=['get', 'put']
     )
     def get_and_validate_terms(self, request, pk=None, version=None):
-        """Get terms and validate the term of reference book of specific version."""
+        """
+        Get terms and validate the term of reference book of specific version.
+        """
         queryset = Term.objects.filter(
             book__short_name=pk, book__version=version
         )
         if request.method == 'GET':
+            # get list of specifed terms
             queryset = queryset.order_by('code')
             page = self.paginate_queryset(queryset)
             if page is not None:
