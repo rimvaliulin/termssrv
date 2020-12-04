@@ -240,7 +240,7 @@ Content-Type: application/json
 ```
 
 ```bash
-echo '{"code": "foo", "value": "brown"}' | http PUT http://127.0.0.1:8000/books/a/1/
+echo '{"code": "foo", "value": "brown"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
 ```
 
 ```
