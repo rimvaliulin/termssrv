@@ -3,10 +3,10 @@
     "model": "terms.book",
     "pk": 1,
     "fields": {
-        "name": "Book A",
-        "short_name": "a",
-        "description": "",
-        "version": "1",
+        "name": "Диагнозы",
+        "short_name": "diagnozy",
+        "description": "Справочник диагнозов",
+        "version": "1.0",
         "pub_date": "2020-12-01"
     }
 },
@@ -14,10 +14,10 @@
     "model": "terms.book",
     "pk": 2,
     "fields": {
-        "name": "Book A",
-        "short_name": "a",
-        "description": "",
-        "version": "2",
+        "name": "Диагнозы",
+        "short_name": "diagnozy",
+        "description": "Справочник диагнозов",
+        "version": "2.0",
         "pub_date": "2020-12-02"
     }
 },
@@ -25,102 +25,46 @@
     "model": "terms.book",
     "pk": 3,
     "fields": {
-        "name": "Book B",
-        "short_name": "b",
-        "description": "asdasd",
-        "version": "1",
-        "pub_date": "2020-12-03"
+        "name": "Диагнозы",
+        "short_name": "diagnozy",
+        "description": "Справочник диагнозов",
+        "version": "3.0",
+        "pub_date": "2020-12-05"
     }
 },
 {
     "model": "terms.book",
     "pk": 4,
     "fields": {
-        "name": "Book C",
-        "short_name": "c",
-        "description": "",
-        "version": "1",
-        "pub_date": "2020-12-04"
+        "name": "Специальности",
+        "short_name": "specialnosti",
+        "description": "Cправочник специальностей",
+        "version": "1.0",
+        "pub_date": "2020-12-01"
     }
 },
 {
     "model": "terms.book",
     "pk": 5,
     "fields": {
-        "name": "Book D",
-        "short_name": "d",
-        "description": "",
-        "version": "1",
-        "pub_date": "2020-12-05"
+        "name": "Специальности",
+        "short_name": "specialnosti",
+        "description": "Справочник специальностей",
+        "version": "2.0",
+        "pub_date": "2020-12-02"
     }
 },
 {
     "model": "terms.book",
-    "pk": 6,
+    "pk": 5,
     "fields": {
-        "name": "Book D",
-        "short_name": "d",
-        "description": "",
-        "version": "2",
+        "name": "Специальности",
+        "short_name": "specialnosti",
+        "description": "Справочник специальностей",
+        "version": "2.0",
         "pub_date": "2020-12-05"
     }
 },
-{
-    "model": "terms.book",
-    "pk": 7,
-    "fields": {
-        "name": "Book B",
-        "short_name": "b",
-        "description": "",
-        "version": "2",
-        "pub_date": "2020-12-05"
-    }
-},
-{
-    "model": "terms.book",
-    "pk": 8,
-    "fields": {
-        "name": "Book D",
-        "short_name": "d",
-        "description": "",
-        "version": "3",
-        "pub_date": "2020-12-05"
-    }
-},
-{
-    "model": "terms.book",
-    "pk": 9,
-    "fields": {
-        "name": "Book A",
-        "short_name": "a",
-        "description": "",
-        "version": "3",
-        "pub_date": "2020-12-05"
-    }
-},
-{
-    "model": "terms.book",
-    "pk": 10,
-    "fields": {
-        "name": "Book D",
-        "short_name": "d",
-        "description": "",
-        "version": "4",
-        "pub_date": "2020-12-05"
-    }
-},
-{
-    "model": "terms.book",
-    "pk": 11,
-    "fields": {
-        "name": "Book C",
-        "short_name": "c",
-        "description": "",
-        "version": "3",
-        "pub_date": "2020-12-05"
-    }
-},
-
 {
     "model": "terms.term",
     "pk": 1,
@@ -152,7 +96,7 @@
     "model": "terms.term",
     "pk": 4,
     "fields": {
-        "book": 9,
+        "book": 5,
         "code": "foo",
         "value": "white"
     }
@@ -161,9 +105,36 @@
     "model": "terms.term",
     "pk": 5,
     "fields": {
-        "book": 9,
+        "book": 5,
         "code": "bar",
         "value": "black"
     }
 }
+{
+    "model": "terms.term",
+    "pk": 6,
+    "fields": {
+        "book": 3,
+        "code": "foo",
+        "value": "red"
+    }
+},
+{
+    "model": "terms.term",
+    "pk": 7,
+    "fields": {
+        "book": 3,
+        "code": "bar",
+        "value": "green"
+    }
+},
+{
+    "model": "terms.term",
+    "pk": 8,
+    "fields": {
+        "book": 3,
+        "code": "baz",
+        "value": "blue"
+    }
+},
 ]
