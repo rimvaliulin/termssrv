@@ -21,7 +21,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         """
         queryset = self.get_queryset()
         try:
-            queryset = self.queryset.filter(pub_date__gte=date)
+            queryset = self.queryset.filter(pub_date__lte=date)
         except ValidationError as e:
             raise serializers.ValidationError(detail=e.messages)
         queryset = queryset.order_by('-pub_date')
