@@ -38,7 +38,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         Get the terms of a given directory of the current version.
         """
         recent = self.get_queryset()
-        recent = recent.filter(short_name=pk).order_by('-pub_date')[:1]
+        recent = recent.filter(pk=pk).order_by('-pub_date')[:1]
         queryset = Term.objects.filter(book=recent).order_by('code')
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -55,7 +55,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         Check values of the given codes for the terms in the book.
         """
         recent = self.get_queryset()
-        recent = recent.filter(short_name=pk).order_by('-pub_date')[:1]
+        recent = recent.filter(pk=pk).order_by('-pub_date')[:1]
         queryset = Term.objects.filter(book=recent)
         serializer = TermSerializer(data=request.data, many=True)
         if serializer.is_valid():
@@ -84,15 +84,13 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
             )
 
     @action(
-        detail=True, url_path=r'(?P<version>[\w_]+)', methods=['get', 'put']
+        detail=True, url_path=r'(?P<version>[^/]+)', methods=['get', 'put']
     )
     def get_and_validate_terms(self, request, pk=None, version=None):
         """
         Get terms and validate the term of reference book of specific version.
         """
-        queryset = Term.objects.filter(
-            book__short_name=pk, book__version=version
-        )
+        queryset = Term.objects.filter(book__pk=pk, book__version=version)
         if request.method == 'GET':
             # get list of specifed terms
             queryset = queryset.order_by('code')
