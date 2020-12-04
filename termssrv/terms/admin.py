@@ -27,7 +27,11 @@ class VersionListFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            if queryset.filter(book__version=self.value()).count():
+            short_name = request.GET.get('short_name', None)
+            is_exists = Book.objects.filter(
+                short_name=short_name, version=self.value()
+            ).count()
+            if is_exists:
                 return queryset.filter(book__version=self.value())
             return queryset
 
