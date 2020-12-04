@@ -57,6 +57,12 @@ class Term(models.Model):
     class Meta:
         verbose_name = _('Term')
         verbose_name_plural = _('Terms')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['code', 'book'],
+                name='unique_terms_per_book',
+            ),
+        ]
 
     def __str__(self):
         return f'{self.code} ({self.book_id})'
