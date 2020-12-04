@@ -10,10 +10,9 @@ cd termsrv
 python3 -m venv env
 source env/bin/activate
 pip install django djangorestframework httpie
-python manage.py migrate
-python manage.py createsuperuser --email admin@example.com --username admin
 python manage.py makemigrations
 python manage.py migrate
+python manage.py createsuperuser --email admin@example.com --username admin
 python manage.py loaddata termssrv/terms/fixtures/terms.json
 ```
 
@@ -47,40 +46,44 @@ Allow: GET, HEAD, OPTIONS
 Content-Type: application/json
 
 {
-    "count": 11,
-    "next": "http://127.0.0.1:8000/books/?page=2",
+    "count": 5,
+    "next": null,
     "previous": null,
     "results": [
         {
-            "name": "Book A",
-            "short_name": "a",
-            "description": "",
-            "version": "1",
-            "pub_date": "2020-12-01"
+            "description": "Справочник диагнозов",
+            "id": 1,
+            "name": "Диагнозы",
+            "pub_date": "2020-12-01",
+            "short_name": "diagnozy",
+            "version": "1.0"
         },
         {
-            "name": "Book A",
-            "short_name": "a",
-            "description": "",
-            "version": "2",
-            "pub_date": "2020-12-02"
+            "description": "Справочник диагнозов",
+            "id": 2,
+            "name": "Диагнозы",
+            "pub_date": "2020-12-02",
+            "short_name": "diagnozy",
+            "version": "2.0"
         },
         ...
         {
-            "name": "Book D",
-            "short_name": "d",
             "description": "",
-            "version": "4",
-            "pub_date": "2020-12-05"
+            "id": 5,
+            "name": "Специальности",
+            "pub_date": "2020-12-02",
+            "short_name": "specialnosti",
+            "version": "2.0"
         }
     ]
 }
+
 ```
 
 ### Getting the list of reference books actual as of the specified date.
 
 ```bash
-http http://127.0.0.1:8000/books/2020-12-05/
+http http://127.0.0.1:8000/books/2020-12-02/
 ```
 
 ```
@@ -90,40 +93,51 @@ Allow: GET, HEAD, OPTIONS
 Content-Type: application/json
 
 {
-    "count": 7,
+    "count": 4,
     "next": null,
     "previous": null,
     "results": [
         {
-            "name": "Book D",
-            "short_name": "d",
-            "description": "",
-            "version": "1",
-            "pub_date": "2020-12-05"
+            "description": "Справочник диагнозов",
+            "id": 2,
+            "name": "Диагнозы",
+            "pub_date": "2020-12-02",
+            "short_name": "diagnozy",
+            "version": "2.0"
         },
         {
-            "name": "Book D",
-            "short_name": "d",
             "description": "",
-            "version": "2",
-            "pub_date": "2020-12-05"
+            "id": 5,
+            "name": "Специальности",
+            "pub_date": "2020-12-02",
+            "short_name": "specialnosti",
+            "version": "2.0"
         },
-        ...
         {
-            "name": "Book C",
-            "short_name": "c",
-            "description": "",
-            "version": "3",
-            "pub_date": "2020-12-05"
+            "description": "Справочник диагнозов",
+            "id": 1,
+            "name": "Диагнозы",
+            "pub_date": "2020-12-01",
+            "short_name": "diagnozy",
+            "version": "1.0"
+        },
+        {
+            "description": "asdasd",
+            "id": 4,
+            "name": "Специальности",
+            "pub_date": "2020-12-01",
+            "short_name": "specialnosti",
+            "version": "1.0"
         }
     ]
 }
+
 ```
 
 ### Getting the terms of a specified reference books of the current version
 
 ```bash
-http http://127.0.0.1:8000/books/a/
+http http://127.0.0.1:8000/books/1/
 ```
 
 ```
@@ -133,26 +147,31 @@ Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
 
 {
-    "count": 2,
+    "count": 3,
     "next": null,
     "previous": null,
     "results": [
         {
             "code": "bar",
-            "value": "black"
+            "value": "green"
+        },
+        {
+            "code": "baz",
+            "value": "blue"
         },
         {
             "code": "foo",
-            "value": "white"
+            "value": "red"
         }
     ]
 }
+
 ```
 
 ### Validation of elements of a given reference books of the current version
 
 ```bash
-echo '[{"code": "foo", "value": "red"}, {"code": "bar", "value": "black"}]' | http PUT http://127.0.0.1:8000/books/a/
+echo '[{"code": "foo", "value": "red"}, {"code": "bar", "value": "black"}]' | http PUT http://127.0.0.1:8000/books/1/
 ```
 
 ````
@@ -174,7 +193,7 @@ Content-Type: application/json
 ### Getting the terms of a given reference books of the specified version
 
 ```bash
-http http://127.0.0.1:8000/books/a/1/
+http http://127.0.0.1:8000/books/1/1.0/
 ```
 
 ```
@@ -207,7 +226,7 @@ Content-Type: application/json
 ### Validation of an element of a given reference book according to a specified version
 
 ```bash
-echo '{"code": "foo", "value": "red"}' | http PUT http://127.0.0.1:8000/books/a/1/
+echo '{"code": "foo", "value": "red"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
 ```
 ```
 GET /books/a/1/
