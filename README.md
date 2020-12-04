@@ -156,6 +156,17 @@ echo '[{"code": "foo", "value": "red"}, {"code": "bar", "value": "black"}]' | ht
 ```
 
 ````
+PUT /books/a/1/
+HTTP 400 Bad Request
+Allow: GET, PUT, HEAD, OPTIONS
+Content-Type: application/json
+
+[
+    {
+        "code": "foo",
+        "value": "white"
+    }
+]
 
 ````
 
