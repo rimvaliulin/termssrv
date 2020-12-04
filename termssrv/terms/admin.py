@@ -14,7 +14,6 @@ class BookListFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value():
             return queryset.filter(book__short_name=self.value())
-        return queryset
 
 
 class VersionListFilter(admin.SimpleListFilter):
@@ -22,15 +21,15 @@ class VersionListFilter(admin.SimpleListFilter):
     parameter_name = 'version'
 
     def lookups(self, request, model_admin):
-        if 'short_name' in request.GET:
-            short_name = request.GET.get('short_name')
-            queryset = Book.objects.filter(short_name=short_name)
-            return queryset.values_list('version', 'version')
+        short_name = request.GET['short_name']
+        queryset = Book.objects.filter(short_name=short_name)
+        return queryset.values_list('version', 'version')
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(book__version=self.value())
-        return queryset
+            if queryset.filter(book__version=self.value()).count():
+                return queryset.filter(book__version=self.value())
+            return queryset
 
 
 @admin.register(Book)
@@ -46,7 +45,6 @@ class TermAdmin(admin.ModelAdmin):
     list_display = ('book', 'code', 'value')
 
     def get_list_filter(self, request):
-        list_filter = [BookListFilter]
         if 'short_name' in request.GET:
-            return list_filter + [VersionListFilter]
-        return list_filter
+            return (BookListFilter, VersionListFilter)
+        return (BookListFilter,)
