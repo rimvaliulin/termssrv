@@ -3,6 +3,42 @@ from django.utils.translation import gettext_lazy as _
 from .models import Book, Term
 
 
+class TermsAdminSite(admin.AdminSite):
+    site_header = _('Terminology Service')
+
+    def each_context(self, request):
+        context = super().each_context(request)
+        # TODO: use distinct('name') for postgresql
+        queryset = Book.objects.all().order_by('-pub_date')
+        queryset = queryset.values_list('name', 'short_name', 'version')
+        count = 0
+        distinct = []
+        for name, short_name, version in queryset:
+            if name not in distinct:
+                query = f'?short_name={short_name}&version={version}'
+                context['available_apps'][1]['models'].insert(
+                    count,
+                    {
+                        'add_url': '/admin/terms/term/add/',
+                        'admin_url': '/admin/terms/term/' + query,
+                        'name': name,
+                        'object_name': 'Term',
+                        'perms': {
+                            'add': True,
+                            'change': True,
+                            'delete': True,
+                            'view': True,
+                        },
+                    },
+                )
+                count += 1
+                distinct.append(name)
+        return context
+
+
+site = TermsAdminSite(name='terms_admin_site')
+
+
 class BookListFilter(admin.SimpleListFilter):
     title = _('Reference Books')
     parameter_name = 'short_name'
@@ -36,7 +72,7 @@ class VersionListFilter(admin.SimpleListFilter):
             return queryset
 
 
-@admin.register(Book)
+@admin.register(Book, site=site)
 class BookAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     prepopulated_fields = {'short_name': ('name',)}
@@ -44,11 +80,21 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('name', 'version')
 
 
-@admin.register(Term)
+@admin.register(Term, site=site)
 class TermAdmin(admin.ModelAdmin):
-    list_display = ('book', 'code', 'value')
+    def get_list_display(self, request):
+        if 'short_name' in request.GET:
+            return ('code', 'value')
+        return ('book', 'code', 'value')
 
     def get_list_filter(self, request):
         if 'short_name' in request.GET:
             return (BookListFilter, VersionListFilter)
         return (BookListFilter,)
+
+
+from django.contrib.auth.models import User, Group
+from django.contrib.auth.admin import UserAdmin, GroupAdmin
+
+site.register(User, UserAdmin)
+site.register(Group, GroupAdmin)
