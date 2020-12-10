@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from .models import Book, Term
+from .models import Book, Version, Term
 
 
 class TermsAdminSite(admin.AdminSite):
     site_header = _('Terminology Service')
 
-    def each_context(self, request):
+    def each_context1(self, request):
         context = super().each_context(request)
         # TODO: use distinct('name') for postgresql
         queryset = Book.objects.all().order_by('-pub_date')
@@ -74,10 +74,18 @@ class VersionListFilter(admin.SimpleListFilter):
 
 @admin.register(Book, site=site)
 class BookAdmin(admin.ModelAdmin):
-    date_hierarchy = 'pub_date'
+    fields = ('name', 'short_name')
     prepopulated_fields = {'short_name': ('name',)}
-    list_display = ('name', 'short_name', 'version', 'pub_date')
-    ordering = ('name', 'version')
+    list_display = ('name', 'short_name')
+    ordering = ('name',)
+
+
+@admin.register(Version, site=site)
+class VersionAdmin(admin.ModelAdmin):
+    fields = ('book', 'name', 'pub_date')
+    list_display = ('book', 'name', 'pub_date')
+    ordering = ('book__name', '-pub_date')
+    date_hierarchy = 'pub_date'
 
 
 @admin.register(Term, site=site)
@@ -85,7 +93,7 @@ class TermAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
         if 'short_name' in request.GET:
             return ('code', 'value')
-        return ('book', 'code', 'value')
+        return ('version', 'code', 'value')
 
     def get_list_filter(self, request):
         if 'short_name' in request.GET:

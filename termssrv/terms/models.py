@@ -16,7 +16,6 @@ class Book(models.Model):
     name = models.CharField(_('name'), max_length=150)
     short_name = models.CharField(_('short name'), max_length=50)
     description = models.TextField(_('description'), blank=True)
-    pub_date = models.DateField(_('date'))
 
     class Meta:
         verbose_name = _('Reference Book')
@@ -24,12 +23,12 @@ class Book(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['short_name', 'name'],
-                name='unique_book_version',
+                name='unique_names',
             ),
         ]
 
     def __str__(self):
-        return f'{self.short_name} ({self.version})'
+        return self.name
 
 
 class Version(models.Model):
@@ -39,13 +38,24 @@ class Version(models.Model):
     Name is requied.
     """
 
-    name = models.CharField(_('name'), max_length=50)
     book = models.ForeignKey(
         Book, on_delete=models.CASCADE, verbose_name=_('version')
     )
+    name = models.CharField(_('name'), max_length=50)
+    pub_date = models.DateField(_('date'))
 
     def __str__(self):
-        return f'{self.name} ({self.book_id})'
+        return f'{self.book} ({self.name})'
+
+    class Meta:
+        verbose_name = _('Version')
+        verbose_name_plural = _('Versions')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'book'],
+                name='unique_version_name',
+            ),
+        ]
 
 
 class Term(models.Model):
@@ -72,4 +82,4 @@ class Term(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.code} ({self.version_id})'
+        return f'{self.code} ({self.version})'
