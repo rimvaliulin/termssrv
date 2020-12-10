@@ -72,20 +72,30 @@ class VersionListFilter(admin.SimpleListFilter):
             return queryset
 
 
+class VersionInline(admin.TabularInline):
+    model = Version
+
+
 @admin.register(Book, site=site)
 class BookAdmin(admin.ModelAdmin):
     fields = ('name', 'short_name')
     prepopulated_fields = {'short_name': ('name',)}
     list_display = ('name', 'short_name')
     ordering = ('name',)
+    inlines = (VersionInline,)
+
+
+class TermInline(admin.TabularInline):
+    model = Term
 
 
 @admin.register(Version, site=site)
 class VersionAdmin(admin.ModelAdmin):
     fields = ('book', 'name', 'pub_date')
     list_display = ('book', 'name', 'pub_date')
-    ordering = ('book__name', '-pub_date')
+    ordering = ('book__name', 'pub_date')
     date_hierarchy = 'pub_date'
+    inlines = (TermInline,)
 
 
 @admin.register(Term, site=site)
