@@ -12,6 +12,7 @@ source env/bin/activate
 pip install django djangorestframework httpie
 python manage.py makemigrations
 python manage.py migrate
+django-admin compilemessages -i env
 python manage.py createsuperuser --email admin@example.com --username admin
 python manage.py loaddata termssrv/terms/fixtures/terms.json
 ```
