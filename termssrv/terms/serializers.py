@@ -1,4 +1,4 @@
-from .models import Book, Term
+from .models import Book, Version, Term
 from rest_framework import serializers
 
 
@@ -10,7 +10,15 @@ class BookSerializer(serializers.ModelSerializer):
             'name',
             'short_name',
             'description',
-            'version',
+        ]
+
+
+class VersionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Version
+        fields = [
+            'id',
+            'name',
             'pub_date',
         ]
 
