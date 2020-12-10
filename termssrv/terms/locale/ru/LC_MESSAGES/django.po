@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-02 14:36+0500\n"
+"POT-Creation-Date: 2020-12-10 13:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,54 +20,62 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: apps.py:7
-msgid "Terminology service"
+#: terms/admin.py:7
+msgid "Terminology Service"
 msgstr "Сервис терминологий"
 
-#: models.py:16
-msgid "name"
-msgstr "наименование"
-
-#: models.py:17
-msgid "short name"
-msgstr "короткое наименование"
-
-#: models.py:18
-msgid "description"
-msgstr "описание"
-
-#: models.py:19
-msgid "version"
-msgstr "версия"
-
-#: models.py:20
-msgid "date"
-msgstr "дата"
-
-#: models.py:23
-msgid "Reference Book"
-msgstr "Справочник"
-
-#: models.py:24
+#: terms/admin.py:43 terms/models.py:22
 msgid "Reference Books"
 msgstr "Справочники"
 
-#: models.py:52
-msgid "reference book"
-msgstr "справочник"
+#: terms/admin.py:56 terms/models.py:42 terms/models.py:69
+msgid "version"
+msgstr "версия"
 
-#: models.py:54
+#: terms/apps.py:8
+msgid "Terminology service"
+msgstr "Сервис терминологий"
+
+#: terms/models.py:16 terms/models.py:44
+msgid "name"
+msgstr "наименование"
+
+#: terms/models.py:17
+msgid "short name"
+msgstr "короткое наименование"
+
+#: terms/models.py:18
+msgid "description"
+msgstr "описание"
+
+#: terms/models.py:21
+msgid "Reference Book"
+msgstr "Справочник"
+
+#: terms/models.py:45
+msgid "date"
+msgstr "дата"
+
+#: terms/models.py:51
+msgid "Version"
+msgstr "Версия"
+
+#: terms/models.py:52
+msgid "Versions"
+msgstr "Версии"
+
+#: terms/models.py:71
 msgid "code"
 msgstr "код"
 
-#: models.py:55
+#: terms/models.py:72
 msgid "value"
 msgstr "значение"
 
-#: models.py:58
+#: terms/models.py:75
 msgid "Term"
 msgstr "Элемент справочника"
 
-#: models.py:59
+#: terms/models.py:76
 msgid "Terms"
 msgstr "Элементы справочника"
