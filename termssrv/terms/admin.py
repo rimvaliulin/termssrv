@@ -41,15 +41,15 @@ site = TermsAdminSite(name='terms_admin_site')
 
 class BookListFilter(admin.SimpleListFilter):
     title = _('Reference Books')
-    parameter_name = 'short_name'
+    parameter_name = 'book'
 
     def lookups(self, request, model_admin):
-        queryset = Book.objects.all().distinct().order_by('name')
-        return queryset.values_list('short_name', 'name')
+        queryset = Book.objects.all()
+        return queryset.values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(book__short_name=self.value())
+            return queryset.filter(version__book=self.value())
 
 
 class VersionListFilter(admin.SimpleListFilter):
@@ -57,18 +57,18 @@ class VersionListFilter(admin.SimpleListFilter):
     parameter_name = 'version'
 
     def lookups(self, request, model_admin):
-        short_name = request.GET['short_name']
-        queryset = Book.objects.filter(short_name=short_name)
-        return queryset.values_list('version', 'version')
+        book = request.GET['book']
+        queryset = Version.objects.filter(book=book)
+        return queryset.values_list('pk', 'name')
 
     def queryset(self, request, queryset):
         if self.value():
-            short_name = request.GET.get('short_name', None)
-            is_exists = Book.objects.filter(
-                short_name=short_name, version=self.value()
+            book = request.GET.get('book', None)
+            is_exists = Version.objects.filter(
+                book=book, pk=self.value()
             ).count()
             if is_exists:
-                return queryset.filter(book__version=self.value())
+                return queryset.filter(version=self.value())
             return queryset
 
 
@@ -91,12 +91,12 @@ class VersionAdmin(admin.ModelAdmin):
 @admin.register(Term, site=site)
 class TermAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
-        if 'short_name' in request.GET:
+        if 'book' in request.GET:
             return ('code', 'value')
         return ('version', 'code', 'value')
 
     def get_list_filter(self, request):
-        if 'short_name' in request.GET:
+        if 'book' in request.GET:
             return (BookListFilter, VersionListFilter)
         return (BookListFilter,)
 
