@@ -16,7 +16,6 @@ class Book(models.Model):
     name = models.CharField(_('name'), max_length=150)
     short_name = models.CharField(_('short name'), max_length=50)
     description = models.TextField(_('description'), blank=True)
-    version = models.CharField(_('version'), max_length=30)
     pub_date = models.DateField(_('date'))
 
     class Meta:
@@ -24,21 +23,29 @@ class Book(models.Model):
         verbose_name_plural = _('Reference Books')
         constraints = [
             models.UniqueConstraint(
-                fields=['short_name', 'name', 'version'],
+                fields=['short_name', 'name'],
                 name='unique_book_version',
-            ),
-            models.UniqueConstraint(
-                fields=['name', 'version'],
-                name='unique_book_name_per_version',
-            ),
-            models.UniqueConstraint(
-                fields=['short_name', 'version'],
-                name='unique_book_short_name_per_version',
             ),
         ]
 
     def __str__(self):
         return f'{self.short_name} ({self.version})'
+
+
+class Version(models.Model):
+    """
+    A version of the reference book.
+
+    Name is requied.
+    """
+
+    name = models.CharField(_('name'), max_length=50)
+    book = models.ForeignKey(
+        Book, on_delete=models.CASCADE, verbose_name=_('version')
+    )
+
+    def __str__(self):
+        return f'{self.name} ({self.book_id})'
 
 
 class Term(models.Model):
@@ -48,8 +55,8 @@ class Term(models.Model):
     Code and value are required.
     """
 
-    book = models.ForeignKey(
-        Book, on_delete=models.CASCADE, verbose_name=_('reference book')
+    version = models.ForeignKey(
+        Version, on_delete=models.CASCADE, verbose_name=_('version')
     )
     code = models.CharField(_('code'), max_length=50)
     value = models.CharField(_('value'), max_length=100)
@@ -59,10 +66,10 @@ class Term(models.Model):
         verbose_name_plural = _('Terms')
         constraints = [
             models.UniqueConstraint(
-                fields=['code', 'book'],
+                fields=['code', 'version'],
                 name='unique_terms_per_book',
             ),
         ]
 
     def __str__(self):
-        return f'{self.code} ({self.book_id})'
+        return f'{self.code} ({self.version_id})'
