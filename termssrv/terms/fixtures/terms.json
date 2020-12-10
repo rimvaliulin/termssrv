@@ -3,11 +3,9 @@
     "model": "terms.book",
     "pk": 1,
     "fields": {
-        "name": "Диагнозы",
-        "short_name": "diagnozy",
-        "description": "Справочник диагнозов",
-        "version": "1.0",
-        "pub_date": "2020-12-01"
+        "name": "Специальности",
+        "short_name": "specialnosti",
+        "description": ""
     }
 },
 {
@@ -16,60 +14,59 @@
     "fields": {
         "name": "Диагнозы",
         "short_name": "diagnozy",
-        "description": "Справочник диагнозов",
-        "version": "2.0",
-        "pub_date": "2020-12-02"
+        "description": ""
     }
 },
 {
-    "model": "terms.book",
+    "model": "terms.version",
+    "pk": 1,
+    "fields": {
+        "book": 2,
+        "name": "1.0",
+        "pub_date": "2020-12-08"
+    }
+},
+{
+    "model": "terms.version",
+    "pk": 2,
+    "fields": {
+        "book": 2,
+        "name": "2.0",
+        "pub_date": "2020-12-09"
+    }
+},
+{
+    "model": "terms.version",
     "pk": 3,
     "fields": {
-        "name": "Диагнозы",
-        "short_name": "diagnozy",
-        "description": "Справочник диагнозов",
-        "version": "3.0",
-        "pub_date": "2020-12-05"
+        "book": 1,
+        "name": "1.0",
+        "pub_date": "2020-12-07"
     }
 },
 {
-    "model": "terms.book",
+    "model": "terms.version",
     "pk": 4,
     "fields": {
-        "name": "Специальности",
-        "short_name": "specialnosti",
-        "description": "Cправочник специальностей",
-        "version": "1.0",
-        "pub_date": "2020-12-01"
+        "book": 1,
+        "name": "2.0",
+        "pub_date": "2020-12-08"
     }
 },
 {
-    "model": "terms.book",
+    "model": "terms.version",
     "pk": 5,
     "fields": {
-        "name": "Специальности",
-        "short_name": "specialnosti",
-        "description": "Справочник специальностей",
-        "version": "2.0",
-        "pub_date": "2020-12-02"
-    }
-},
-{
-    "model": "terms.book",
-    "pk": 5,
-    "fields": {
-        "name": "Специальности",
-        "short_name": "specialnosti",
-        "description": "Справочник специальностей",
-        "version": "2.0",
-        "pub_date": "2020-12-05"
+        "book": 2,
+        "name": "3.0",
+        "pub_date": "2020-12-10"
     }
 },
 {
     "model": "terms.term",
     "pk": 1,
     "fields": {
-        "book": 1,
+        "version": 2,
         "code": "foo",
         "value": "red"
     }
@@ -78,63 +75,54 @@
     "model": "terms.term",
     "pk": 2,
     "fields": {
-        "book": 1,
-        "code": "bar",
-        "value": "green"
-    }
-},
-{
-    "model": "terms.term",
-    "pk": 3,
-    "fields": {
-        "book": 1,
-        "code": "baz",
-        "value": "blue"
-    }
-},
-{
-    "model": "terms.term",
-    "pk": 4,
-    "fields": {
-        "book": 5,
-        "code": "foo",
-        "value": "white"
-    }
-},
-{
-    "model": "terms.term",
-    "pk": 5,
-    "fields": {
-        "book": 5,
-        "code": "bar",
-        "value": "black"
-    }
-}
-{
-    "model": "terms.term",
-    "pk": 6,
-    "fields": {
-        "book": 3,
+        "version": 1,
         "code": "foo",
         "value": "red"
     }
 },
 {
     "model": "terms.term",
-    "pk": 7,
+    "pk": 3,
     "fields": {
-        "book": 3,
+        "version": 2,
         "code": "bar",
         "value": "green"
     }
 },
 {
     "model": "terms.term",
-    "pk": 8,
+    "pk": 4,
     "fields": {
-        "book": 3,
-        "code": "baz",
-        "value": "blue"
+        "version": 1,
+        "code": "bar",
+        "value": "green"
     }
 },
+{
+    "model": "terms.term",
+    "pk": 5,
+    "fields": {
+        "version": 4,
+        "code": "baz",
+        "value": "white"
+    }
+},
+{
+    "model": "terms.term",
+    "pk": 6,
+    "fields": {
+        "version": 3,
+        "code": "bar",
+        "value": "black"
+    }
+},
+{
+    "model": "terms.term",
+    "pk": 7,
+    "fields": {
+        "version": 5,
+        "code": "foo1",
+        "value": "white"
+    }
+}
 ]
