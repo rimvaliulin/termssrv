@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Book, Term
+from .models import Version, Term
 from .serializers import BookSerializer, TermSerializer
 
 
@@ -11,7 +11,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
     API endpoint that allows books and terms to be viewed and validated.
     """
 
-    queryset = Book.objects.all()
+    queryset = Version.objects.all()
     serializer_class = BookSerializer
 
     @action(detail=False, url_path=r'(?P<date>[0-9]{4}-[0-9]{2}-[0-9]{2})')
@@ -35,11 +35,11 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, pk=None):
         """
-        Get the terms of a given directory of the current version.
+        Get the terms of a given refernce book of the current version.
         """
         recent = self.get_queryset()
         recent = recent.filter(pk=pk).order_by('-pub_date')[:1]
-        queryset = Term.objects.filter(book=recent).order_by('code')
+        queryset = Term.objects.filter(version=recent).order_by('code')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = TermSerializer(page, many=True)
@@ -56,7 +56,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         """
         recent = self.get_queryset()
         recent = recent.filter(pk=pk).order_by('-pub_date')[:1]
-        queryset = Term.objects.filter(book=recent)
+        queryset = Term.objects.filter(version=recent)
         serializer = TermSerializer(data=request.data, many=True)
         if serializer.is_valid():
             terms = {term['code']: term['value'] for term in serializer.data}
@@ -90,7 +90,7 @@ class BookViewSet(viewsets.ReadOnlyModelViewSet):
         """
         Get terms and validate the term of reference book of specific version.
         """
-        queryset = Term.objects.filter(book__pk=pk, book__version=version)
+        queryset = Term.objects.filter(version__book=pk, version__name=version)
         if request.method == 'GET':
             # get list of specifed terms
             queryset = queryset.order_by('code')
