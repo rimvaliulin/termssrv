@@ -6,22 +6,22 @@ from .models import Book, Version, Term
 class TermsAdminSite(admin.AdminSite):
     site_header = _('Terminology Service')
 
-    def each_context1(self, request):
+    def each_context(self, request):
         context = super().each_context(request)
         # TODO: use distinct('name') for postgresql
-        queryset = Book.objects.all().order_by('-pub_date')
-        queryset = queryset.values_list('name', 'short_name', 'version')
-        count = 0
+        queryset = Version.objects.all().order_by('-pub_date')
+        queryset = queryset.values_list('book', 'book__name', 'pk')
+        count = 2
         distinct = []
-        for name, short_name, version in queryset:
+        for pk, name, version in queryset:
             if name not in distinct:
-                query = f'?short_name={short_name}&version={version}'
+                query = f'?book={pk}&version={version}'
                 context['available_apps'][1]['models'].insert(
                     count,
                     {
                         'add_url': '/admin/terms/term/add/',
                         'admin_url': '/admin/terms/term/' + query,
-                        'name': name,
+                        'name': f'• {name}',
                         'object_name': 'Term',
                         'perms': {
                             'add': True,
