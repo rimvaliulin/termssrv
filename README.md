@@ -52,39 +52,53 @@ Content-Type: application/json
     "previous": null,
     "results": [
         {
-            "description": "Справочник диагнозов",
-            "id": 1,
+            "description": "",
+            "id": 2,
             "name": "Диагнозы",
-            "pub_date": "2020-12-01",
+            "pub_date": "2020-12-08",
             "short_name": "diagnozy",
             "version": "1.0"
         },
         {
-            "description": "Справочник диагнозов",
+            "description": "",
             "id": 2,
             "name": "Диагнозы",
-            "pub_date": "2020-12-02",
+            "pub_date": "2020-12-09",
             "short_name": "diagnozy",
             "version": "2.0"
         },
-        ...
         {
             "description": "",
-            "id": 5,
+            "id": 1,
             "name": "Специальности",
-            "pub_date": "2020-12-02",
+            "pub_date": "2020-12-07",
+            "short_name": "specialnosti",
+            "version": "1.0"
+        },
+        {
+            "description": "",
+            "id": 1,
+            "name": "Специальности",
+            "pub_date": "2020-12-08",
             "short_name": "specialnosti",
             "version": "2.0"
+        },
+        {
+            "description": "",
+            "id": 2,
+            "name": "Диагнозы",
+            "pub_date": "2020-12-10",
+            "short_name": "diagnozy",
+            "version": "3.0"
         }
     ]
 }
-
 ```
 
 ### Getting the list of reference books actual as of the specified date.
 
 ```bash
-http http://127.0.0.1:8000/books/2020-12-02/
+http http://127.0.0.1:8000/books/2020-12-08/
 ```
 
 ```
@@ -94,39 +108,31 @@ Allow: GET, HEAD, OPTIONS
 Content-Type: application/json
 
 {
-    "count": 4,
+    "count": 3,
     "next": null,
     "previous": null,
     "results": [
         {
-            "description": "Справочник диагнозов",
+            "description": "",
             "id": 2,
             "name": "Диагнозы",
-            "pub_date": "2020-12-02",
-            "short_name": "diagnozy",
-            "version": "2.0"
-        },
-        {
-            "description": "",
-            "id": 5,
-            "name": "Специальности",
-            "pub_date": "2020-12-02",
-            "short_name": "specialnosti",
-            "version": "2.0"
-        },
-        {
-            "description": "Справочник диагнозов",
-            "id": 1,
-            "name": "Диагнозы",
-            "pub_date": "2020-12-01",
+            "pub_date": "2020-12-08",
             "short_name": "diagnozy",
             "version": "1.0"
         },
         {
-            "description": "asdasd",
-            "id": 4,
+            "description": "",
+            "id": 1,
             "name": "Специальности",
-            "pub_date": "2020-12-01",
+            "pub_date": "2020-12-08",
+            "short_name": "specialnosti",
+            "version": "2.0"
+        },
+        {
+            "description": "",
+            "id": 1,
+            "name": "Специальности",
+            "pub_date": "2020-12-07",
             "short_name": "specialnosti",
             "version": "1.0"
         }
@@ -148,17 +154,13 @@ Allow: GET, PUT, HEAD, OPTIONS
 Content-Type: application/json
 
 {
-    "count": 3,
+    "count": 2,
     "next": null,
     "previous": null,
     "results": [
         {
             "code": "bar",
             "value": "green"
-        },
-        {
-            "code": "baz",
-            "value": "blue"
         },
         {
             "code": "foo",
@@ -183,8 +185,8 @@ Content-Type: application/json
 
 [
     {
-        "code": "foo",
-        "value": "white"
+        "code": "bar",
+        "value": "green"
     }
 ]
 
@@ -210,16 +212,8 @@ Content-Type: application/json
     "results": [
         {
             "code": "bar",
-            "value": "green"
+            "value": "black"
         },
-        {
-            "code": "baz",
-            "value": "blue"
-        },
-        {
-            "code": "foo",
-            "value": "red"
-        }
     ]
 }
 ```
@@ -227,7 +221,7 @@ Content-Type: application/json
 ### Validation of an element of a given reference book according to a specified version
 
 ```bash
-echo '{"code": "foo", "value": "red"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
+echo '{"code": "bar", "value": "black"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
 ```
 ```
 GET /books/a/1/
@@ -241,7 +235,7 @@ Content-Type: application/json
 ```
 
 ```bash
-echo '{"code": "foo", "value": "brown"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
+echo '{"code": "bar", "value": "white"}' | http PUT http://127.0.0.1:8000/books/1/1.0/
 ```
 
 ```
