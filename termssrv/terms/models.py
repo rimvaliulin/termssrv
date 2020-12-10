@@ -9,7 +9,7 @@ class Book(models.Model):
     The version of the reference book must be unique
     within that reference book.
 
-    Name, short name and publication date are required.
+    Name, short name are required.
     Description is optional.
     """
 
@@ -33,9 +33,9 @@ class Book(models.Model):
 
 class Version(models.Model):
     """
-    A version of the reference book.
+    THe version of the reference book.
 
-    Name is requied.
+    Name and publication data are requied.
     """
 
     book = models.ForeignKey(
@@ -60,7 +60,7 @@ class Version(models.Model):
 
 class Term(models.Model):
     """
-    An element of the reference book.
+    The element of the reference book.
 
     Code and value are required.
     """
@@ -77,7 +77,7 @@ class Term(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=['code', 'version'],
-                name='unique_terms_per_book',
+                name='unique_term_per_version',
             ),
         ]
 
